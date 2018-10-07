@@ -1,0 +1,10 @@
+[lide.sql]
+author     = Hernan Dario Cano Hernandez
+date       = 2018/10/07
+version    = 0.1
+windows    = x86:windows/x86/lua/lide/sql.lua
+depends    = luasql 2.1.00
+source     = http://github.com/dcanoh/lide.sql
+mantainer  = lide team
+license    = lide license
+repository = stable

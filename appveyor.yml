@@ -40,7 +40,7 @@ build_script:
 
 test_script:
 - cd c:\projects\lide-sql
-- lide install luasql 
+- lide install lide.sql 
   
   # Simulate lide's package.path and package.cpath on default lua5.1 interpreter
 - call %LIDE_PATH%\bin\windows\x86\lua5.1.exe %LIDE_PATH%\bin\lide51.lua tests\sqlite3_test.lua
