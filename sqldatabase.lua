@@ -16,38 +16,22 @@ end
 function sqldatabase:exec( query )
 	local con = assert(env:connect(self.database));
 	local cur = assert(con:execute(query));
+	local ret_cursor;
+
+	if type(cur) == 'number' then
+		ret_cursor = cur;
+		con:close();
+		
+		return ret_cursor;
+	else
+		ret_cursor = cur;
+	    cur:close();
+		con:close();
+	    
+	    return ret_cursor;
+	end
+
 	
-	print('exec-cur: '..tostring(cur))
-
-	if type(cur) ~= 'number' then
-	   cur:close();
-	end
-
-	con:close()	
-end
-
-local function select( dbConnection, tbName, rowNames, sCond )
-	local query, con, res = "select %s from %s %s", env:connect(dbConnection), {}
-		
-	--print(query:format(rowNames, tbName, sCond or ""))
-
-	local cur = assert(
-		con:execute(
-		query:format(rowNames, tbName, sCond or "")
-	))
-		
-	local row = cur:fetch ({}, "a")
-	while row do
-		local this = #res+1
-		res[this] = {}
-		for rowname, rowvalue in pairs(row) do
-			res[this][rowname] = rowvalue
-		end
-		row = cur:fetch ({}, "a")
-	end
-		cur:close()
-		con:close()
-		return res
 end
 
 function sqldatabase:fetch_query ( to_select )	
@@ -77,7 +61,7 @@ function sqldatabase:fetch_query ( to_select )
 end
 
 
--- list of strings: { "a1", "b2" }
+-- list of strings sqldatabase:select { "a1", "b2" from = 'lua_packages' };
 function sqldatabase:select ( tCols )
    local sColumnsToSelect, sTableName, sWhereCond
 
@@ -100,16 +84,74 @@ function sqldatabase:select ( tCols )
    if sColumnsToSelect then
       return self:fetch_query(
         ('select %s from %s'):format(sColumnsToSelect, sTableName)
-      )
+      );
    end
 end
 
-	function sqldatabase:getTables ( ... )
-		-- body
-	end
+function sqldatabase:insert ( tFields )
+    local sColumnsToInsert, sValuesToInsert, SQLTableName;
+    local tCols, tVals = {}, {};
 
-	function sqldatabase:createTable ( ... )
-		-- body
-	end
+    SQLTableName = tFields.into;
+    tFields.into = nil;
+
+    for c,v in pairs(tFields) do
+        tCols[#tCols +1] = c;
+        tVals[#tVals +1] = '"'..v..'"';
+    end
+    
+    sColumnsToInsert = table.concat(tCols, ',');
+    sValuesToInsert  = table.concat(tVals, ',');
+
+    return self:exec (("INSERT INTO %s ( %s ) VALUES ( %s );"):format(SQLTableName, sColumnsToInsert, sValuesToInsert));
+end
+
+function sqldatabase:update ( tFields )
+    local sColumnsToInsert, sWhereCondition, SQLTableName;
+    local tColVals = {};
+
+    if not tFields.where or not tFields[1] then
+        error 'lide.sql.sqldatabase: params error read api reference.';
+    end
+
+    SQLTableName    = tFields[1];
+    sWhereCondition = tFields.where
+    tFields[1] = nil;
+    tFields.where = nil;
+
+    for c,v in pairs(tFields.set) do
+        tColVals[#tColVals +1] = (c ..' = "'..v..'"');
+    end
+
+    sColValsToUpdate = table.concat(tColVals, ',');
+    
+    return self:exec(
+        ("UPDATE %s set %s WHERE %s;"):format(SQLTableName, sColValsToUpdate, sWhereCondition or '')
+    );
+end
+
+function sqldatabase:create ( tFields )
+    local SQLTableName, sColValsToCreate;
+    local tColVals = {};
+
+    for table_name , columns in pairs(tFields) do
+        for c,v in pairs(columns) do
+            tColVals[#tColVals +1] = ('"'.. c ..'" '.. v);
+        end 
+        SQLTableName = table_name;
+        sColValsToCreate = table.concat(tColVals, ',');        
+        break;
+    end
+
+    return self:exec (('CREATE TABLE "%s"( %s ); '):format(SQLTableName, sColValsToCreate));
+end
+
+function sqldatabase:getTables ( ... )
+	-- body
+end
+
+function sqldatabase:createTable ( ... )
+	-- body
+end
 
 return sqldatabase
