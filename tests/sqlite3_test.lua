@@ -1,5 +1,5 @@
 require 'lide.core.init'
-lide.sql = require 'lide_sql'
+lide.sql = require 'lide.sql'
 
 sqll = lide.sql.database ('testx.db', 'sqlite3')
 
