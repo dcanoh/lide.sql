@@ -1,9 +1,7 @@
 require 'lide.core.init'
-sqldatabase = require 'sqldatabase'
+lide.sql = require 'lide_sql'
 
-sqll = sqldatabase('testx.db', 'sqlite3')
-
-
+sqll = lide.sql.database ('testx.db', 'sqlite3')
 
 sqll:create { lua_packages = {  
     package_checksum = "Text",
@@ -18,24 +16,18 @@ sqll:create { lua_packages = {
 
 
 ret = sqll:insert { into = 'lua_packages',
-    package_name = 'casqueta', 
-    package_description = 'acabe de echarme dos perco',
+    package_name = 'base64', 
+    package_description = 'First package_description.',
     package_date = '2018-10-07',
     package_version = '1.0.0',
 };
 --
 
-print(sqll:update { 'lua_packages', 
-    where = "package_name like 'casqueta'",
-    set = { package_description = 'su manifestacion de ese sueño ya paso.' }
-})
+sqll:update { 'lua_packages', 
+    where = "package_name like 'base64'",
+    set = { package_description = 'Second package_description.' }
+}
 
--- table.foreach(sqll:select { from = 'lua_packages', 'a1','sw2', 'xd4',  where = 'package_name like "asdf"' }[1], print)
-----
 for i,v in pairs ( sqll:select { from = 'lua_packages', 'package_name' }) do
    table.foreach(v, print)
 end
-
---sqll:select { '*' , from = 'thetable'}
---table.foreach(sqll:select 'package_description' [1], print)
-
