@@ -8,8 +8,8 @@ SQl Databases support.
 ===============  ==========  ============== ====================================================================================
   platform          arch        version       build status
 ===============  ==========  ============== ====================================================================================
-  ``Windows``      ``x86``      ``0.1``       .. image:: https://ci.appveyor.com/api/projects/status/gp3wb7k28clx6ol0/branch/package.lide?svg=true
-                                                       :target: https://ci.appveyor.com/project/dcanoh/lide-http/branch/package.lide
+  ``Windows``      ``x86``      ``0.1``       .. image:: https://ci.appveyor.com/api/projects/status/tgol246fvwsdoq0o/branch/package.lide?svg=true
+                                                       :target: https://ci.appveyor.com/project/dcanoh/lide-sql/branch/package.lide
 ===============  ==========  ============== ====================================================================================
 
 
@@ -62,7 +62,7 @@ sql.database:create_table { table_name = { col1name = string col1value, col2name
 
 .. code-block:: lua
 	
-	sqldb:create { lua_packages = {  
+	sqldb:create_table { lua_packages = {  
 	    package_checksum = "Text",
 	    package_date = "Text",
 	    package_description = "Text",
