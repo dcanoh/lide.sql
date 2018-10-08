@@ -3,7 +3,7 @@ lide.sql = require 'lide.sql'
 
 sqll = lide.sql.database ('testx.db', 'sqlite3')
 
-sqll:create { lua_packages = {  
+sqll:create_table { lua_packages = {  
     package_checksum = "Text",
     package_date = "Text",
     package_description = "Text",
