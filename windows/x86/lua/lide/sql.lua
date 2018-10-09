@@ -1,25 +1,33 @@
-local luasql;
+local _luasql;
 
-if  not lide.luasql then
-   luasql = require 'luasql.sqlite3'
-end
+lide.sql = { libs = { luasql = {} } };
 
-lide.sql = {};
-lide.sql.libs = {};
-
-local env = luasql.sqlite3()
+local isString = lide.error.is_string
 
 local sqldatabase = class 'sqldatabase'
 
-function sqldatabase:sqldatabase( database, driver )
+function sqldatabase:sqldatabase( database, driver )   
+   isString(database); isString(driver);
+
+   if lide.sql.libs.luasql[driver] then
+      lide.sql.libs.luasql[driver] = lide.sql.libs.luasql[driver];
+   else
+      -- load luasql.sqlite3 i.e
+      lide.sql.libs.luasql[driver] = require ('luasql.' .. driver);
+   end
+
+   _luasql = lide.sql.libs.luasql[driver];
+
 	protected {
 		database = database,
 		driver   = driver,
+      env      = _luasql[driver]();
 	}
+
 end
 
 function sqldatabase:exec( query )
-	local con = assert(env:connect(self.database));
+	local con = assert(self.env:connect(self.database));
 	local cur = assert(con:execute(query));
 	local ret_cursor;
 
@@ -30,25 +38,21 @@ function sqldatabase:exec( query )
 		return ret_cursor;
 	else
 		ret_cursor = cur;
-	    cur:close();
+	   cur:close();
 		con:close();
 	    
-	    return ret_cursor;
+	   return ret_cursor;
 	end
-
-	
 end
 
 function sqldatabase:fetch_query ( to_select )	
 		local query = to_select
-		local con   = env:connect(self.database)
+		local con   = self.env:connect(self.database)
 		res = {}
-		--print(query:format(rowNames, tbName, sCond or ""))
 
 		local cur = assert(
 			con:execute(
 				query
-				--query:format(rowNames, tbName, sCond or "")
 		))
 		
 		local row = cur:fetch ({}, "a")
@@ -135,7 +139,7 @@ function sqldatabase:update ( tFields )
     );
 end
 
-function sqldatabase:create ( tFields )
+function sqldatabase:create_table ( tFields )
     local SQLTableName, sColValsToCreate;
     local tColVals = {};
 
@@ -151,15 +155,6 @@ function sqldatabase:create ( tFields )
     return self:exec (('CREATE TABLE "%s"( %s ); '):format(SQLTableName, sColValsToCreate));
 end
 
-function sqldatabase:getTables ( ... )
-	-- body
-end
-
-function sqldatabase:createTable ( ... )
-	-- body
-end
-
 lide.sql.database = sqldatabase
-lide.sql.libs.luasql = luasql
 
 return lide.sql
