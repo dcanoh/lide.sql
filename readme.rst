@@ -13,25 +13,26 @@ SQl Databases support.
 ===============  ==========  ============== ====================================================================================
 
 
-La librería lide.sql nos permite ejecutar querys en bases de datos sql desde lua.
+lide.sql library allows us to execute queries in sql databases from lua.
 
 
-instalación
-^^^^^^^^^^^
+installation
+^^^^^^^^^^^^
 
-Para instalar ésta libreria recomiendo utilizar la linea de comandos de lide, usando ``lide install``.
+To install this library I recommend using the command line of lide, using ``lide install``.
 
-*Así todas las dependencias se instalarán automaticamente:*
+*Thus all the dependencies will be installed automatically:*
 
 ``$ lide install lide.sql``
 
 
 
-dependencias
+dependencies
 ^^^^^^^^^^^^
 
-Las siguientes dependencias son necesarias para poder ejecutar la librería:
+The following dependencies are necessary to be able to run the library:
 
+- lide 0.1
 - luasql_ 2.1.0
 
 
