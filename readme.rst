@@ -3,7 +3,7 @@
 lide.sql
 ========
 
-SQl Databases support.
+SQl Databases support for Lide framework.
 
 ===============  ==========  ============== ====================================================================================
   platform          arch        version       build status
