@@ -34,6 +34,7 @@ The following dependencies are necessary to be able to run the library:
 
 - lide 0.1
 - luasql_ 2.1.0
+- fbclient 0.5.0
 
 
 
