@@ -47,7 +47,7 @@ sql.database:new ( string sDatabase, string sqlDriver )
 
 .. code-block:: lua
 	
-	sqldb = sql.database:new ( 'test.db', 'sqlite3' );
+	sqldb = sql.database:new ( 'sqlite3', 'test.db' );
 
 sql.database:exec ( string QueryStatement )
 	Executes the given SQL statement.
