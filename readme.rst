@@ -65,14 +65,14 @@ sql.database:create_table { table_name = { col1name = string col1value, col2name
 .. code-block:: lua
 	
 	sqldb:create_table { lua_packages = {  
-	    package_checksum = "Text",
-	    package_date = "Text",
-	    package_description = "Text",
-	    package_name = "Text",
-	    package_prefix = "Text",
-	    package_url = "Text",
-	    package_version = "Text",
-	    package_compat = "Text"
+	    package_checksum = "CHAR(250)",
+	    package_date = "CHAR(250)",
+	    package_description = "CHAR(250)",
+	    package_name = "CHAR(250)CHAR(250)",
+	    package_prefix = "CHAR(250)",
+	    package_url = "CHAR(250)",
+	    package_version = "CHAR(250)",
+	    package_compat = "CHAR(250)"
 	} };
 
 
