@@ -8,7 +8,7 @@ SQl Databases support for Lide framework.
 ===============  ==========  ============== ====================================================================================
   platform          arch        version       build status
 ===============  ==========  ============== ====================================================================================
-  ``Windows``      ``x86``      ``0.1``       .. image:: https://ci.appveyor.com/api/projects/status/tgol246fvwsdoq0o/branch/package.lide?svg=true
+  ``Windows``      ``x86``      ``0.2.1``       .. image:: https://ci.appveyor.com/api/projects/status/tgol246fvwsdoq0o/branch/package.lide?svg=true
                                                        :target: https://ci.appveyor.com/project/dcanoh/lide-sql/branch/package.lide
 ===============  ==========  ============== ====================================================================================
 
