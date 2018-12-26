@@ -3,7 +3,7 @@
 lide.sql
 ========
 
-SQl Databases support for Lide framework.
+SQL Databases support for Lide framework.
 
 ===============  ==========  ============== ====================================================================================
   platform          arch        version       build status
@@ -107,8 +107,9 @@ sql.database:select { from = string table_name , string col1name, string col2val
 	form of a result table. These result tables are also called result 
 	sets.
 
-	**Returns:** "select" is an iterator, to fetch data to lua table 
-	  use ``sql.database:select_totable`` instead.
+	**Returns:** 
+	  "select" is an iterator, to fetch data to lua table use 
+	  ``sql.database:select_totable`` instead.
 
 .. code-block:: lua
 
