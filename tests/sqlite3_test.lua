@@ -29,5 +29,6 @@ sqll:update { 'lua_packages',
 }
 
 for i,v in pairs ( sqll:select { from = 'lua_packages', 'package_name' }) do
-   table.foreach(v, print)
+   print(i,v);
+   -- table.foreach(v, print)
 end
