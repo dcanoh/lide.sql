@@ -15,8 +15,12 @@ local sqldatabase = class 'sqldatabase'
 function sqldatabase:sqldatabase( driver, database, username, password )   
          local _env;
 
-         isString(database); isString(driver);
+      isString(database); isString(driver);
       
+      if driver ~= 'sqlite3' and driver ~= 'firebird' then
+         error 'Driver allows: "sqlite3" and "firebird"'
+      end
+
       if driver:lower() == 'sqlite3' then
             if lide.sql.libs.luasql[driver] then
                lide.sql.libs.luasql[driver] = lide.sql.libs.luasql[driver];
