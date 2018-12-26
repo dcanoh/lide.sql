@@ -101,11 +101,17 @@ sql.database:update { string package_name, where = string WhereConditional, set 
 	    set = { package_description = 'Es una nueva version mucho mejor que las anteriores.' }
 	}
 
+
 sql.database:select { from = string table_name , string col1name, string col2value, ... }
-	Fetch the data from a SQL database table which returns data in the form of a result table. 
-	These result tables are also called result sets.
+	Fetch the data from a SQL database table which returns data in the 
+	form of a result table. These result tables are also called result 
+	sets.
+
+	**Returns:** "select" is an iterator, to fetch data to lua table 
+	  use ``sql.database:select_totable`` instead.
 
 .. code-block:: lua
-	
-	sqll:select { from = 'lua_packages', 'package_name' }
 
+	for row in sqll:select { '*'; from = 'lua_packages' } do
+	    print(row.package_name);
+	end
