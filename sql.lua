@@ -1,6 +1,8 @@
+--- 0.2.1
+
 local _luasql;
 
-lide.sql = { libs = { luasql = {} } };
+lide.sql = { libs = { luasql = {}, fbclient = {}, alien = {} } };
 
 local isString = lide.error.is_string
 
@@ -30,7 +32,11 @@ function sqldatabase:sqldatabase( driver, database, username, password )
          isString(username); isString(password);
          local alien = require 'alien' -- v0.5.0
 
-         assert(pcall(alien.load, 'fbclient'), 'Firebird 2.5 is not installed now.') -- Verify FBCLIENT.DLL on system.
+         lide.sql.libs.fbclient = assert(pcall(alien.load, 'fbclient'), 'Firebird 2.5 is not installed now.') -- Verify FBCLIENT.DLL on system.
+
+         if not lide.file.exists(database) then
+            fb.create_table(database,username,password);
+         end
 
          local fb  = require 'fbclient.class'
          fb_attach = fb.attach(database, username, password)
@@ -184,7 +190,7 @@ function sqldatabase:exec( query )
    isString(query);
 
       if (self.driver == 'firebird') then
-      return self.fb_attach:exec(query);
+         return self.fb_attach:exec(query);
       elseif (self.driver == 'sqlite3') then
          local con = assert(self.env:connect(self.database));
          local cur = assert(con:execute(query));
